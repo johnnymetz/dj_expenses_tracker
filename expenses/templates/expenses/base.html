@@ -1,0 +1,64 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Track personal expenses">
+  <title>Expenses Tracker</title>
+  <link rel="shortcut icon" href="{% static 'expenses/images/favicon/favicon.ico' %}">
+  <link rel="icon" sizes="16x16 32x32 64x64" href="{% static 'expenses/images/favicon/favicon.ico' %}">
+	<link rel="stylesheet" href="{% static 'expenses/css/bootstrap.min.css' %}">
+	{% block stylesheets %}{% endblock %}
+	<link rel="stylesheet" href="{% static 'expenses/css/styles.css' %}">
+</head>
+<body>
+
+	<svg style="display: none;">
+    <symbol id="icon-notification" viewBox="0 0 32 32">
+      <title>notification</title>
+      <path d="M16 3c-3.472 0-6.737 1.352-9.192 3.808s-3.808 5.72-3.808 9.192c0 3.472 1.352 6.737 3.808 9.192s5.72 3.808 9.192 3.808c3.472 0 6.737-1.352 9.192-3.808s3.808-5.72 3.808-9.192c0-3.472-1.352-6.737-3.808-9.192s-5.72-3.808-9.192-3.808zM16 0v0c8.837 0 16 7.163 16 16s-7.163 16-16 16c-8.837 0-16-7.163-16-16s7.163-16 16-16zM14 22h4v4h-4zM14 6h4v12h-4z"></path>
+    </symbol>
+    <symbol id="icon-warning" viewBox="0 0 32 32">
+      <title>warning</title>
+      <path d="M16 2.899l13.409 26.726h-26.819l13.409-26.726zM16 0c-0.69 0-1.379 0.465-1.903 1.395l-13.659 27.222c-1.046 1.86-0.156 3.383 1.978 3.383h27.166c2.134 0 3.025-1.522 1.978-3.383h0l-13.659-27.222c-0.523-0.93-1.213-1.395-1.903-1.395v0z"></path>
+      <path d="M18 26c0 1.105-0.895 2-2 2s-2-0.895-2-2c0-1.105 0.895-2 2-2s2 0.895 2 2z"></path>
+      <path d="M16 22c-1.105 0-2-0.895-2-2v-6c0-1.105 0.895-2 2-2s2 0.895 2 2v6c0 1.105-0.895 2-2 2z"></path>
+    </symbol>
+    {% block svg_icons %}{% endblock %}
+  </svg>
+
+  {% if not login_page %}
+		<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+			<div class="container">
+				<a class="navbar-brand" href="{% url 'expenses:index' %}">
+					<img src="{% static 'expenses/images/splitmybill-logo.png' %}" width="30" height="30" alt="">
+					<span class="align-middle">Expenses Tracker</span>
+				</a>
+				<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarTabs" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarTabs">
+					{% block navbar_items %}{% endblock %}
+				</div><!-- .collapse -->
+			</div><!-- .container -->
+		</nav><!-- .navbar -->
+	{% endif %}
+
+	<div class="container">
+		{% block content %}{% endblock %}
+	</div><!-- .container -->
+
+
+	{% block modals %}{% endblock %}
+	
+
+	<script src="{% static 'expenses/js/jquery-3.2.1.min.js' %}"></script>
+	<script src="{% static 'expenses/js/bootstrap.bundle.min.js' %}"></script>
+	{% block scripts %}{% endblock %}
+	<script src="{% static 'expenses/js/script.js' %}"></script>
+	{% block script_tag %}{% endblock %}
+</body>
+</html>

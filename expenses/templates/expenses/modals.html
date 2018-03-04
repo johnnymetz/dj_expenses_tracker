@@ -1,0 +1,65 @@
+<!-- Bootstrap Modals -->
+
+<div class="modal fade" id="delete_expense" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Delete Expense</h5>
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<form id="delete_expense_form" method="POST">
+					{% csrf_token %}
+					<div class="text-center">
+						Are you sure you want to delete this expense? You can't undo this action.
+					</div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-secondary modal-middle-btn">Yes</button>
+						<button type="button" class="btn btn-primary modal-middle-btn" data-dismiss="modal">No</button>
+					</div>
+				</form>
+			</div><!-- .modal-body -->
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="limits" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Category Limits</h5>
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<form action="#" method="POST">
+					<div class="form-group">
+						<label for="food_limit">Food:</label>
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input type="text" id="food_limit" name="food_limit" class="form-control limit" value="{{ current_user.food_limit }}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="car_limit">Car:</label>
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input type="text" id="car_limit" name="car_limit" class="form-control limit" value="{{ current_user.car_limit }}">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="entertainment_limit">Entertainment:</label>
+						<div class="input-group">
+							<span class="input-group-addon">$</span>
+							<input type="text" id="entertainment_limit" name="entertainment_limit" class="form-control limit" value="{{ current_user.entertainment_limit }}">
+						</div>
+					</div>
+					<div>Monthly Limit: <b id="monthly-limit"></b></div>
+					<div class="text-center">
+						<button type="submit" class="btn btn-primary">Save</button>
+					</div>
+				</form>
+			</div><!-- .modal-body -->
+		</div>
+	</div>
+</div>

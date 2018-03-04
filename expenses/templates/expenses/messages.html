@@ -1,0 +1,15 @@
+<!-- Alert Messages -->
+
+{% for message in messages %}
+	<div class="alert {{ message.tags }} alert-dismissible text-center" role="alert">
+		{% if message.tags == 'alert-danger' or message.tags == 'alert-warning' %}
+			<svg class="icon"><use xlink:href="#icon-warning"></use></svg>
+		{% else %}
+			<svg class="icon"><use xlink:href="#icon-notification"></use></svg>
+		{% endif %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    	<span aria-hidden="true">&times;</span>
+    </button>
+    {{ message }}
+  </div>
+{% endfor %}

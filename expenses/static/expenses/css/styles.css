@@ -1,0 +1,57 @@
+/* General */
+body {
+	background-color: #ccc;
+}
+#login-header {
+	margin-top: 10px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+/* NAVBAR */
+nav.navbar {
+	/*margin-bottom: 10px;*/
+}
+.nav-item-inside {
+	margin-right: 10px;
+}
+
+/* CARDS */
+.card {
+	margin-top: 10px;
+}
+.bottom-card {
+	margin-bottom: 10px;
+}
+
+/* SVG ICONS */
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+.icon-btn {
+	position: relative;
+	top: 1px;
+}
+/* END SVG ICONS */
+
+/* BUTTONS */
+.btn {
+	cursor: pointer;
+}
+.modal-middle-btn {
+	width: 100px;
+	margin: 10px 4px 0;
+}
+
+/* CHARTS */
+.c3-ygrid-line line,
+.c3-ygrid-line text {
+	stroke: red;
+	fill: red;
+}
+
