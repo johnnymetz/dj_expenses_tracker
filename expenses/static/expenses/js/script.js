@@ -3,10 +3,10 @@ app = {};
 app.populateSubcategories = function(element, category_to_subcategory){
 	category = element.val();
 	subcategories = category_to_subcategory[category];
-	$('#subcategory').empty();
-	$('<option>', {'value': ''}).text('Select one...').appendTo($('#subcategory'));
+	$('select[name="subcategory"]').empty();
+	$('<option>', {'value': ''}).text('Select one...').appendTo($('select[name="subcategory"]'));
 	$.each(subcategories, function(index, subcategory){
-		$('<option>', {'value': subcategory}).text(subcategory).appendTo($('#subcategory'));
+		$('<option>', {'value': subcategory}).text(subcategory).appendTo($('select[name="subcategory"]'));
 	});
 };
 

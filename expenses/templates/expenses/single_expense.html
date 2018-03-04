@@ -30,34 +30,20 @@
 						<form action="{% url 'expenses:add_expense' %}" method="POST">
 					{% endif %}
 						{% csrf_token %}
-						<div class="form-group">
-							<label for="item">Item:</label>
-							<input type="text" id="item" name="item" class="form-control" placeholder="Urban Plates" {% if expense %} value="{{ expense.item }}" {% endif %} required>
-						</div>
-						<div class="form-group">
-							<label for="cost">Cost:</label>
-							<div class="input-group">
-								<span class="input-group-addon">$</span>
-								<input type="number" id="cost" name="cost" class="form-control" placeholder="12.00" step="0.01" {% if expense %} value="{{ expense.cost }}" {% endif %} required>
+
+						{% comment %}
+						{{ form.as_p }}
+						{% endcomment %}
+
+						{{ form.non_field_errors }}
+						{% for field in form %}
+							<div class="form-group">
+								{{ field.label_tag }}
+								{{ field }}
+								{{ field.errors }}
 							</div>
-						</div>
-						<div class="form-group">
-							<label for="date_purchased">Date Purchased:</label>
-							<input type="text" id="date_purchased" name="date_purchased" class="form-control" required>
-						</div>
-						<div class="form-group">
-							<label for="category">Category:</label>
-							<select id="category" name="category" class="form-control" required>
-								<option value="">Select one...</option>
-								{% for category in categories %}
-									<option value="{{ category }}" {% if expense and expense.category == category %} selected {% endif %}>{{ category }}</option>
-								{% endfor %}
-							</select>
-						</div>
-						<div class="form-group">
-							<label for="subcategory">Subcategory:</label>
-							<select id="subcategory" name="subcategory" class="form-control" required></select>
-						</div>
+						{% endfor %}
+
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary" id="expenseModalBtn">Submit</button>
 						</div>
@@ -83,33 +69,28 @@
 	<script>
 		$(document).ready(function(){
 
-			// app.populateSubcategories($(this), {{ category_to_subcategory | safe }});
-			$('#category').change(function(){
+			$('select[name="category"]').change(function(){
 				app.populateSubcategories($(this), {{ category_to_subcategory | safe }});
 			});
 
-			$('#date_purchased').datepicker({
+			$('input[name="date_purchased"]').datepicker({
 				todayHighlight: true
 			});
 
-			{% if expense_action == 'edit' %}
-				var year = {{ expense.date_purchased|date:'Y' }};
-				var month = {{ expense.date_purchased|date:'m' }} - 1;
-				var day = {{ expense.date_purchased|date:'d' }};
-				$('#date_purchased').datepicker('setDate', new Date(year, month, day));
-				app.populateSubcategories($('#category'), {{ category_to_subcategory|safe }});;
-				$('#subcategory').val("{{ expense.subcategory|safe }}");
+			{% if expense_action == 'add' %}
+				$('input[name="date_purchased"]').datepicker('setDate', new Date());
 			{% else %}
-				$('#date_purchased').datepicker('setDate', new Date());
+				app.populateSubcategories($('select[name="category"]'), {{ category_to_subcategory|safe }});;
+				$('select[name="subcategory"]').val("{{ expense.subcategory|safe }}");
 			{% endif %}
 
 			// todo
 			$('#here').click(function(){
-				$('#item').val('Poke bowl');
-				$('#cost').val(13);
-				$('#category').val('Food');
-				app.populateSubcategories($('#category'), {{ category_to_subcategory | safe }});
-				$('#subcategory').val('Eat Out');
+				$('input[name="item"]').val('Poke bowl');
+				$('input[name="cost"]').val(13);
+				$('select[name="category"]').val('Food');
+				app.populateSubcategories($('select[name="category"]'), {{ category_to_subcategory | safe }});
+				$('select[name="subcategory"]').val('Eat Out');
 			});
 
 		});
