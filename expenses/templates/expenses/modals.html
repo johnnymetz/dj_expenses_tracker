@@ -1,4 +1,5 @@
 <!-- Bootstrap Modals -->
+{% load widget_tweaks %}
 
 <div class="modal fade" id="delete_expense" tabindex="-1">
 	<div class="modal-dialog">
@@ -32,28 +33,20 @@
 				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
 			</div>
 			<div class="modal-body">
-				<form action="#" method="POST">
-					<div class="form-group">
-						<label for="food_limit">Food:</label>
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" id="food_limit" name="food_limit" class="form-control limit" value="{{ current_user.food_limit }}">
+				<form action="{% url 'expenses:update_limits' %}" method="POST">
+					{% csrf_token %}
+					{{ form.non_field_errors }}
+					{% for field in profile_form %}
+						<div class="form-group">
+							{{ field.label_tag }}
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								{{ field|add_class:"form-control limit" }}
+							</div>
+							<small class="form-text text-muted">{{ field.help_text }}</small>
+							{{ field.errors }}
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="car_limit">Car:</label>
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" id="car_limit" name="car_limit" class="form-control limit" value="{{ current_user.car_limit }}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="entertainment_limit">Entertainment:</label>
-						<div class="input-group">
-							<span class="input-group-addon">$</span>
-							<input type="text" id="entertainment_limit" name="entertainment_limit" class="form-control limit" value="{{ current_user.entertainment_limit }}">
-						</div>
-					</div>
+					{% endfor %}
 					<div>Monthly Limit: <b id="monthly-limit"></b></div>
 					<div class="text-center">
 						<button type="submit" class="btn btn-primary">Save</button>

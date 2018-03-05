@@ -1,5 +1,6 @@
 {% extends 'expenses/base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 
 {% block stylesheets %}
@@ -31,15 +32,11 @@
 					{% endif %}
 						{% csrf_token %}
 
-						{% comment %}
-						{{ form.as_p }}
-						{% endcomment %}
-
 						{{ form.non_field_errors }}
 						{% for field in form %}
 							<div class="form-group">
 								{{ field.label_tag }}
-								{{ field }}
+								{{ field|add_class:"form-control" }}
 								{{ field.errors }}
 							</div>
 						{% endfor %}
@@ -80,6 +77,7 @@
 			{% if expense_action == 'add' %}
 				$('input[name="date_purchased"]').datepicker('setDate', new Date());
 			{% else %}
+				
 				app.populateSubcategories($('select[name="category"]'), {{ category_to_subcategory|safe }});;
 				$('select[name="subcategory"]').val("{{ expense.subcategory|safe }}");
 			{% endif %}

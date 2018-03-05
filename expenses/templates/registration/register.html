@@ -1,0 +1,48 @@
+{% extends 'expenses/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+	<div class="row justify-content-center">
+		<div class="col-12 col-md-8 col-lg-6">
+			<div class="card top-card">
+				<div class="card-body">
+					<h2 class="text-center" id="login-header">Register</h2>
+
+					{% include 'expenses/messages.html' %}
+
+					<form action="{% url 'expenses:register' %}" method="POST">
+						{% csrf_token %}
+						{{ form.non_field_errors }}
+
+						{% for field in form %}
+							<div class="form-group">
+								{{ field.label_tag }}
+								{{ field|add_class:"form-control" }}
+								{{ field.errors }}
+								<small class="form-text text-muted">{{ field.help_text|safe }}</small>
+							</div>
+						{% endfor %}
+
+
+						{% comment %}
+						<div class="form-group">
+							<label for="username">Username:</label>
+							<input type="text" id="username" name="username" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label for="password">Password:</label>
+							<input type="password" id="password" name="password" class="form-control" required>
+						</div>
+						{% endcomment %}
+
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary">Register</button>
+							<a class="btn btn-secondary" href="{% url 'login' %}">Login</a>
+							<input type="hidden" name="next" value="{{ next }}">
+						</div>
+					</form>
+				</div><!-- .card-body -->
+			</div><!-- .card -->
+		</div><!-- .col-sm-6 -->
+	</div><!-- .row -->
+{% endblock %}

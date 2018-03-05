@@ -56,8 +56,6 @@ def build_results(user_expenses, session):
     # determine selected option for show last x months
     user_months = get_user_months(user_expenses)
     show_last_x_months = get_show_last_x_months_default(session, len(user_months))
-    print(user_months)
-    print(show_last_x_months)
 
     # filter df to include only selected months
     show_months = user_months[-1 * show_last_x_months:]  # get list of months to show in chart

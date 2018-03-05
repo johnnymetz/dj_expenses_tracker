@@ -1,17 +1,27 @@
-from django.forms import ModelForm, TextInput, NumberInput, DateInput, Select
-from .models import Expense
+from django.forms import ModelForm, TextInput, NumberInput, DateInput
+from .models import Expense, Profile
 
 
 class ExpenseForm(ModelForm):
 
     class Meta:
         model = Expense
-        # fields = ['item', 'cost', 'date_purchased', 'category', 'subcategory']
-        fields = '__all__'
+        exclude = ['user']
         widgets = {
-            'item': TextInput(attrs={'class': 'form-control', 'placeholder': 'Urban Plates'}),
-            'cost': NumberInput(attrs={'class': 'form-control', 'placeholder': '12.00', 'min': '0'}),
-            'date_purchased': DateInput(attrs={'class': 'form-control'}),
-            'category': Select(attrs={'class': 'form-control'}),
-            'subcategory': Select(attrs={'class': 'form-control'})
+            'item': TextInput(attrs={'placeholder': 'Urban Plates'}),
+            'cost': NumberInput(attrs={'placeholder': '12.00', 'min': '0'}),
+            'date_purchased': DateInput(format='%m/%d/%Y')
         }
+
+
+class ProfileForm(ModelForm):
+
+    class Meta:
+        model = Profile
+        exclude = ['user']
+        # help_texts = {
+        #     'food_limit': 'Budget for eating out and grocery store items',
+        #     'car_limit': 'Budget for gas and car maintenance',
+        #     'entertainment_limit': 'Budget for partying, one-timers and gifts'
+        # }
+

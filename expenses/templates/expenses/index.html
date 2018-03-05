@@ -29,6 +29,9 @@
 		<div class="nav-item">
 			<button class="btn btn-light nav-item-inside" data-toggle="modal" data-target="#limits">Category Limits</button>
 		</div>
+		<div class="nav-item">
+			<a class="btn btn-secondary" href="{% url 'logout' %}">Logout</a>
+		</div>
 	</div>
 {% endblock %}
 
@@ -37,7 +40,7 @@
 
 	<div class="card bottom-card">
 		<div class="card-body">
-			<h5 class="text-center">All Expenses</h5>
+			<h5 class="text-center">All Expenses for {{ user.username }}</h5>
 			{% include 'expenses/messages.html' %}
 			<table class="table table-responsive-sm" id="expenses-table">
 				<thead>
