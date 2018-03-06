@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
-from django.views.decorators.http import require_GET, require_POST, require_http_methods
+from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -11,7 +11,6 @@ from .models import Expense
 from .forms import ExpenseForm, ProfileForm
 from .helpers import sqlalchemy_objects_to_dicts, build_results
 from . import constants as const
-from .decorators import user_expense_required
 
 
 def register(request):
@@ -36,11 +35,10 @@ def on_user_logged_out(sender, request, **kwargs):
     messages.success(request, "You've been successfully logged out")
 
 
-@require_GET
 @login_required
-# @user_expense_required
+@require_http_methods(["GET", "POST"])
 def index(request):
-    query_list = request.user.expense_set.all()
+    query_list = request.user.expenses.all()
     if not query_list:
         messages.info(request, 'Please add an expense to get started!')
         return redirect(reverse('expenses:add_expense'))
@@ -49,7 +47,16 @@ def index(request):
     user_expenses = sqlalchemy_objects_to_dicts(query_list)
     results = build_results(user_expenses, request.session)
 
-    profile_form = ProfileForm(instance=request.user.profile)
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            # database validators satisfied
+            profile_form.save()
+            messages.success(request, 'Monthly limits successfully updated!')
+        else:
+            messages.error(request, 'Something went wrong...')
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
 
     context = {
         'profile_form': profile_form,
@@ -70,6 +77,8 @@ def add_expense(request):
             expense.user = request.user
             expense.save()
             messages.success(request, 'Expense successfully added!')
+        else:
+            messages.error(request, 'Validation error.')
     else:
         form = ExpenseForm()
 
@@ -104,6 +113,8 @@ def edit_expense(request, expense_id):
             expense.user = request.user
             expense.save()
             messages.success(request, 'Expense successfully updated!')
+        else:
+            messages.error(request, 'Validation error.')
     else:
         form = ExpenseForm(instance=expense)
 
@@ -142,19 +153,6 @@ def update_chart_months(request):
     """Update last n months displayed in chart"""
     request.session['show_last_x_months'] = int(request.POST['show_last_x_months'])
     messages.success(request, 'Chart successfully updated!')
-    return redirect(reverse('expenses:index'))
-
-
-@login_required
-@require_POST
-def update_limits(request):
-    """Update monthly sub-limits"""
-    profile_form = ProfileForm(request.POST, instance=request.user.profile)
-    if profile_form.is_valid():
-        profile_form.save()
-        messages.success(request, 'Monthly limits successfully updated!')
-    else:
-        messages.error(request, 'Something went wrong...')
     return redirect(reverse('expenses:index'))
 
 

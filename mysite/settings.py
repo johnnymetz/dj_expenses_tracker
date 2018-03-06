@@ -137,7 +137,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # django-debug-toolbar
 if DEBUG:
-    INTERNAL_IPS = ('127.0.0.1', 'localhost',)
+    # INTERNAL_IPS = ('127.0.0.1', 'localhost',)
     MIDDLEWARE += (
        'debug_toolbar.middleware.DebugToolbarMiddleware',
     )

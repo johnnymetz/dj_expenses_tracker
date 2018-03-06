@@ -5,7 +5,7 @@ from django.urls import reverse
 
 def user_expense_required(func):
     def wrap(request, *args, **kwargs):
-        query_list = request.user.expense_set.all()
+        query_list = request.user.expenses.all()
         if query_list:
             return func(request, *args, **kwargs)
         else:
