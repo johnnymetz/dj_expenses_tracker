@@ -42,5 +42,10 @@ class Expense(models.Model):
                                             'Party', 'One-Timer', 'Gift'])
     subcategory = models.CharField(max_length=100, choices=SUBCATEGORY_CHOICES)
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        # return reverse('expenses:edit_expense', kwargs={'pk': self.pk})
+        return reverse('expenses:edit_expense', args=(self.pk,))
+
     def __str__(self):
         return '{} for ${:,.2f} for {}'.format(self.item, self.cost, self.user.username)
